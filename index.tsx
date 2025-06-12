@@ -1,3 +1,4 @@
+
 /**
  * @license
  * SPDX-License-Identifier: Apache-2.0
@@ -6,14 +7,14 @@
 const OFFICEBOT_PRICE = 39.99;
 
 const featureAccentColors = [
-  '#FF6F61', // Coral
-  '#26A69A', // Teal
-  '#7E57C2', // Violet
-  '#FFCA28', // Sunny Yellow
-  '#9CCC65', // Lime Green
-  '#42A5F5', // Sky Blue
-  '#EC407A', // Pink
-  '#FFA726'  // Orange
+  { hex: '#FF6F61', rgb: '255, 111, 97' }, // Coral
+  { hex: '#26A69A', rgb: '38, 166, 154' },  // Teal
+  { hex: '#7E57C2', rgb: '126, 87, 194' }, // Violet
+  { hex: '#FFCA28', rgb: '255, 202, 40' }, // Sunny Yellow
+  { hex: '#9CCC65', rgb: '156, 204, 101' }, // Lime Green
+  { hex: '#42A5F5', rgb: '66, 165, 245' },  // Sky Blue
+  { hex: '#EC407A', rgb: '236, 64, 122' },  // Pink
+  { hex: '#FFA726', rgb: '255, 167, 38' }   // Orange
 ];
 
 function initializeApp(): void {
@@ -60,7 +61,6 @@ function initializeApp(): void {
   featuresSection.classList.add('features-section');
   
   const features = [
-    { icon: '👋', title: 'Office Greeter & Guide', description: 'Welcomes visitors, provides directions, and enhances the guest experience.' },
     { icon: '📂', title: 'Scan & File Paperwork', description: 'Efficiently digitizes and organizes physical documents, reducing clutter and improving accessibility.' },
     { icon: '✏️', title: 'Pencil Sharpening', description: 'Keeps your team\'s pencils perfectly sharp, ready for creative brainstorming and note-taking.' },
     { icon: '📝', title: 'Note Taking Assistant', description: 'Helps capture important information by transcribing voice notes or assisting with written summaries.' },
@@ -73,14 +73,15 @@ function initializeApp(): void {
   let featuresHTML = `
     <div class="container">
       <h3>Why Choose OfficeBot?</h3>
-      <p>OfficeBot is eco-friendly, powered by advanced solar panel technology!</p>
+      <p class="officebot-details">OfficeBot is eco-friendly, powered by advanced solar panel technology!</p>
+      <p class="officebot-details">OfficeBot is ingeniously crafted from everyday materials like foam board, tinfoil, perler beads, wire, and construction paper!</p>
       <div class="features-grid">
   `;
 
   features.forEach((feature, index) => {
-    const iconColor = featureAccentColors[index % featureAccentColors.length];
+    const accent = featureAccentColors[index % featureAccentColors.length];
     featuresHTML += `
-      <div class="feature-item" style="--feature-icon-color: ${iconColor};">
+      <div class="feature-item" style="--feature-icon-color: ${accent.hex}; --feature-icon-color-rgb: ${accent.rgb};">
         <h4><span role="img" aria-label="${feature.title} icon">${feature.icon}</span> ${feature.title}</h4>
         <p>${feature.description}</p>
       </div>
@@ -144,12 +145,17 @@ function createModal(): { element: HTMLDivElement, content: HTMLDivElement, show
   const show = () => {
     modalElement.style.display = 'flex';
     // Trap focus, set aria-labelledby, aria-describedby if needed
-    const firstFocusableElement = modalContentWrapper.querySelector('button, input, textarea, select') as HTMLElement | null;
+    const firstFocusableElement = modalContentWrapper.querySelector('button, input, textarea, select, [tabindex]:not([tabindex="-1"])') as HTMLElement | null;
     firstFocusableElement?.focus();
   };
   const hide = () => {
     modalElement.style.display = 'none';
-    modalContentWrapper.innerHTML = ''; // Clear content
+    // Consider not clearing content immediately if there's a closing animation for the modal content itself
+    setTimeout(() => {
+        if (modalElement.style.display === 'none') { // Ensure it's still hidden before clearing
+            modalContentWrapper.innerHTML = ''; 
+        }
+    }, 350); // Match CSS transition duration
   };
   
   modalElement.addEventListener('click', (event) => {
@@ -157,6 +163,14 @@ function createModal(): { element: HTMLDivElement, content: HTMLDivElement, show
       hide();
     }
   });
+  
+  // Close modal on ESC key
+  document.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape' && modalElement.style.display === 'flex') {
+      hide();
+    }
+  });
+
 
   return { element: modalElement, content: modalContentWrapper, show, hide };
 }
@@ -171,22 +185,22 @@ let orderDetails = {
 function showStep1(modal: { element: HTMLDivElement, content: HTMLDivElement, show: () => void, hide: () => void }) {
   modal.content.innerHTML = `
     <h2 id="modal-title-step1">Order OfficeBot - Your Details</h2>
-    <form id="orderDetailsForm">
+    <form id="orderDetailsForm" novalidate>
       <div class="form-group">
         <label for="name">Full Name:</label>
-        <input type="text" id="name" name="name" value="${orderDetails.name}" required>
+        <input type="text" id="name" name="name" value="${orderDetails.name}" required autocomplete="name">
       </div>
       <div class="form-group">
         <label for="email">Email:</label>
-        <input type="email" id="email" name="email" value="${orderDetails.email}" required>
+        <input type="email" id="email" name="email" value="${orderDetails.email}" required autocomplete="email">
       </div>
       <div class="form-group">
         <label for="address">Shipping Address:</label>
-        <textarea id="address" name="address" rows="3" required>${orderDetails.address}</textarea>
+        <textarea id="address" name="address" rows="3" required autocomplete="street-address">${orderDetails.address}</textarea>
       </div>
       <div class="form-group">
         <label for="quantity">Quantity:</label>
-        <input type="number" id="quantity" name="quantity" value="${orderDetails.quantity}" min="1" required>
+        <input type="number" id="quantity" name="quantity" value="${orderDetails.quantity}" min="1" max="10" required>
       </div>
       <div class="order-summary">
         <p>Unit Price: $${OFFICEBOT_PRICE.toFixed(2)}</p>
@@ -208,9 +222,12 @@ function showStep1(modal: { element: HTMLDivElement, content: HTMLDivElement, sh
 
   const updateTotalPrice = () => {
     const quantity = parseInt(quantityInput.value) || 1;
-    orderDetails.quantity = quantity;
+    orderDetails.quantity = Math.max(1, Math.min(quantity, 10)); // Clamp quantity
+    if (quantityInput.value !== String(orderDetails.quantity)) {
+        quantityInput.value = String(orderDetails.quantity); // Reflect clamped value
+    }
     if (totalPriceEl) {
-        totalPriceEl.textContent = `$${(OFFICEBOT_PRICE * quantity).toFixed(2)}`;
+        totalPriceEl.textContent = `$${(OFFICEBOT_PRICE * orderDetails.quantity).toFixed(2)}`;
     }
   };
 
@@ -225,7 +242,11 @@ function showStep1(modal: { element: HTMLDivElement, content: HTMLDivElement, sh
       orderDetails.address = (form.elements.namedItem('address') as HTMLTextAreaElement).value;
       showStep2(modal);
     } else {
-      form.reportValidity(); // Show native validation messages
+      // form.reportValidity(); // Show native validation messages, could be styled further
+      // Basic custom validity reporting if needed
+      const firstInvalid = form.querySelector(':invalid') as HTMLElement;
+      firstInvalid?.focus();
+      // Add a class or message for invalid fields if desired
     }
   });
 
@@ -235,18 +256,18 @@ function showStep1(modal: { element: HTMLDivElement, content: HTMLDivElement, sh
 function showStep2(modal: { element: HTMLDivElement, content: HTMLDivElement, show: () => void, hide: () => void }) {
   modal.content.innerHTML = `
     <h2 id="modal-title-step2">Order OfficeBot - Payment Details (Mock)</h2>
-    <form id="paymentDetailsForm">
+    <form id="paymentDetailsForm" novalidate>
       <div class="form-group">
         <label for="cardNumber">Card Number:</label>
-        <input type="text" id="cardNumber" name="cardNumber" placeholder="0000 0000 0000 0000" required>
+        <input type="text" id="cardNumber" name="cardNumber" placeholder="0000 0000 0000 0000" required pattern="[0-9]{13,16}" autocomplete="cc-number">
       </div>
       <div class="form-group">
         <label for="expiryDate">Expiry Date (MM/YY):</label>
-        <input type="text" id="expiryDate" name="expiryDate" placeholder="MM/YY" required>
+        <input type="text" id="expiryDate" name="expiryDate" placeholder="MM/YY" required pattern="(0[1-9]|1[0-2])\/([0-9]{2})" autocomplete="cc-exp">
       </div>
       <div class="form-group">
         <label for="cvv">CVV:</label>
-        <input type="text" id="cvv" name="cvv" placeholder="123" required>
+        <input type="text" id="cvv" name="cvv" placeholder="123" required pattern="[0-9]{3,4}" autocomplete="cc-csc">
       </div>
       <div class="order-summary">
         <p>Total Amount: <strong>$${(OFFICEBOT_PRICE * orderDetails.quantity).toFixed(2)}</strong></p>
@@ -267,7 +288,9 @@ function showStep2(modal: { element: HTMLDivElement, content: HTMLDivElement, sh
     if (form.checkValidity()) {
       showStep3(modal);
     } else {
-      form.reportValidity();
+      // form.reportValidity();
+      const firstInvalid = form.querySelector(':invalid') as HTMLElement;
+      firstInvalid?.focus();
     }
   });
 

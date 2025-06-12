@@ -1,5 +1,6 @@
 {
   "name": "OfficeBot Store",
   "description": "A website to showcase and learn about the conceptual OfficeBot product.",
-  "requestFramePermissions": []
+  "requestFramePermissions": [],
+  "prompt": ""
 }

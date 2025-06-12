@@ -1,35 +1,49 @@
+
 /**
  * @license
  * SPDX-License-Identifier: Apache-2.0
  */
 
 :root {
-  --primary-color: #3A86FF; /* Vibrant Blue */
-  --primary-hover-color: #3174E0; /* Darker Vibrant Blue */
-  --secondary-color: #6c757d; /* Muted Gray */
-  --secondary-hover-color: #5a6268;
-  --background-color: #FDFDFF; /* Very Light Off-White */
-  --card-background: #FFFFFF;
-  --text-color: #212529; /* Dark Gray for text */
-  --light-text-color: #FFFFFF;
-  --border-color: #E0E0E0; /* Lighter border color */
-  --error-color: #dc3545;
-  --font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
-  --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.05);
-  --shadow-md: 0 4px 10px rgba(0, 0, 0, 0.08);
-  --shadow-lg: 0 8px 16px rgba(0, 0, 0, 0.1);
-  --border-radius-sm: 6px;
-  --border-radius-md: 12px;
+  /* Futuristic Dark Theme Palette */
+  --primary-color: var(--accent-sky-blue); /* Main interactive color */
+  --primary-hover-color: #6EBFFF; /* Lighter Sky Blue for hover */
+  
+  --background-color: #0D0F1A; /* Deep dark blue/charcoal */
+  --card-background: #1A1C2D; /* Slightly lighter dark shade for cards/modals */
+  --text-color: #E0E7FF; /* Light, slightly bluish-white for general text */
+  --heading-color: #FFFFFF; /* Pure white for main headings */
+  --secondary-text-color: #A0AEC0; /* Muted light gray for less important text */
+  
+  --border-color: #303450; /* Subtle border for separation */
+  --glow-border-color: rgba(var(--accent-sky-blue-rgb), 0.5); /* Example for glow */
 
-  /* New accent colors for multi-color theme */
-  --accent-coral: #FF6F61;
-  --accent-teal: #26A69A;
-  --accent-violet: #7E57C2;
-  --accent-yellow: #FFCA28;
-  --accent-green: #9CCC65;
-  --accent-sky-blue: #42A5F5;
-  --accent-pink: #EC407A;
-  --accent-orange: #FFA726;
+  --error-color: #FF6B6B; /* Vibrant red for errors */
+  
+  --font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+  
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.2);
+  --shadow-md: 0 5px 15px rgba(0, 0, 0, 0.3);
+  --shadow-lg: 0 10px 30px rgba(0, 0, 0, 0.35);
+  
+  --border-radius-sm: 4px; /* Sharper edges */
+  --border-radius-md: 8px;
+
+  /* Accent Colors (RGB versions for opacity if needed) */
+  --accent-coral: #FF6F61; --accent-coral-rgb: 255, 111, 97;
+  --accent-teal: #26A69A; --accent-teal-rgb: 38, 166, 154;
+  --accent-violet: #7E57C2; --accent-violet-rgb: 126, 87, 194;
+  --accent-yellow: #FFCA28; --accent-yellow-rgb: 255, 202, 40;
+  --accent-green: #9CCC65; --accent-green-rgb: 156, 204, 101;
+  --accent-sky-blue: #42A5F5; --accent-sky-blue-rgb: 66, 165, 245;
+  --accent-pink: #EC407A; --accent-pink-rgb: 236, 64, 122;
+  --accent-orange: #FFA726; --accent-orange-rgb: 255, 167, 38;
+
+  --futuristic-gradient: linear-gradient(135deg, var(--accent-pink), var(--accent-violet), var(--accent-sky-blue), var(--accent-teal));
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
 }
 
 body {
@@ -37,7 +51,7 @@ body {
   font-family: var(--font-family);
   background-color: var(--background-color);
   color: var(--text-color);
-  line-height: 1.65;
+  line-height: 1.7;
   font-weight: 400;
   display: flex;
   flex-direction: column;
@@ -56,38 +70,49 @@ body {
   width: 90%;
   max-width: 1100px;
   margin: 0 auto;
-  padding: 0 20px;
-  box-sizing: border-box;
+  padding: 0 15px; /* Consistent padding */
 }
 
 /* Header */
 header {
-  background-color: var(--card-background);
-  color: var(--text-color);
-  padding: 1.5rem 0;
+  background-color: transparent; /* Make header blend with body or have subtle distinct bg */
+  color: var(--heading-color);
+  padding: 2rem 0;
   text-align: center;
-  border-bottom: 1px solid var(--border-color);
+  border-bottom: 1px solid;
+  border-image-slice: 1;
+  border-image-source: linear-gradient(to right, var(--accent-teal), var(--accent-violet), var(--accent-pink));
 }
 
 header h1 {
   margin: 0;
-  font-size: 2.2rem;
+  font-size: 2.8rem;
   font-weight: 700;
-  /* Gradient text for OfficeBot title */
-  background: linear-gradient(45deg, var(--accent-coral), var(--accent-violet), var(--accent-teal));
+  letter-spacing: 1px;
+  background: var(--futuristic-gradient);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
   text-fill-color: transparent;
-  /* Fallback for browsers that don't support gradient text */
-  color: var(--primary-color); 
+  animation: backgroundShine 10s linear infinite;
 }
 
+@keyframes backgroundShine {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+header h1 {
+    background-size: 200% auto; /* For gradient animation */
+}
+
+
 header .tagline {
-  margin: 0.25rem 0 0;
-  font-size: 1rem;
+  margin: 0.5rem 0 0;
+  font-size: 1.1rem;
   font-weight: 400;
-  color: var(--secondary-color);
+  color: var(--secondary-text-color);
+  letter-spacing: 0.5px;
 }
 
 /* Main Content Sections */
@@ -96,202 +121,291 @@ main {
 }
 
 section {
-  padding: 3.5rem 0;
+  padding: 4rem 0;
   text-align: center;
 }
 
-section:nth-child(even) {
-  /* background-color: #f9f9fc; */ 
-}
-
 section h2, section h3 {
-  color: var(--text-color); 
-  margin-bottom: 1rem;
+  color: var(--heading-color); 
+  margin-bottom: 1.5rem;
   font-weight: 700;
+  letter-spacing: 0.5px;
 }
 
 section h2 {
- font-size: 2.3rem; 
+ font-size: 2.5rem; 
 }
 
 section h3 {
-  font-size: 1.9rem; 
-  margin-bottom: 1.5rem;
+  font-size: 2rem; 
+  margin-bottom: 2rem;
 }
 
 section p {
-  font-size: 1.05rem; 
-  max-width: 750px;
+  font-size: 1.1rem; 
+  max-width: 780px;
   margin-left: auto;
   margin-right: auto;
-  margin-bottom: 1.25rem;
-  color: #555; 
+  margin-bottom: 1.5rem;
+  color: var(--text-color); 
 }
 
 /* Hero Section */
 .hero-section {
-  background-color: var(--background-color); 
-  color: var(--text-color);
-  padding: 4rem 0;
+  background: linear-gradient(rgba(13, 15, 26, 0.9), rgba(13, 15, 26, 0.95)), 
+              url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%232A2D40' fill-opacity='0.1'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E"), /* Subtle pattern */
+              var(--background-color);
+  color: var(--heading-color);
+  padding: 5rem 0;
 }
 
 .hero-section h2 {
-  font-size: 2.8rem;
+  font-size: 3rem;
   font-weight: 700;
-  line-height: 1.2;
+  line-height: 1.25;
+  margin-bottom: 1.5rem;
 }
 .hero-section p {
-  font-size: 1.15rem;
-  margin-bottom: 1.5rem; 
-  color: var(--secondary-color);
+  font-size: 1.2rem;
+  margin-bottom: 2rem; 
+  color: var(--secondary-text-color);
 }
 
 .hero-sub-description {
-  font-size: 1.1rem; 
+  font-size: 1.15rem; 
   font-weight: 400;
-  color: #444; 
-  margin-top: 0.5rem; 
-  margin-bottom: 2.5rem !important; 
-  max-width: 700px; 
+  color: var(--text-color); 
+  margin-top: 1rem; 
+  margin-bottom: 3rem !important; 
+  max-width: 720px; 
 }
 
-
 .robot-placeholder {
-  font-size: 5rem;
-  margin-top: 1rem;
-  padding: 2rem;
-  background: linear-gradient(145deg, var(--accent-coral), var(--accent-yellow), var(--accent-teal)); /* Multi-color gradient */
-  color: var(--light-text-color);
+  font-size: 5rem; /* Emoji size */
+  margin-top: 2rem;
+  padding: 1.5rem; /* Adjust padding for emoji */
+  background: linear-gradient(145deg, var(--accent-coral), var(--accent-yellow), var(--accent-teal), var(--accent-violet));
+  background-size: 300% 300%;
+  color: var(--heading-color);
   border-radius: 50%;
-  width: 140px;
-  height: 140px;
+  width: 160px;
+  height: 160px;
   display: flex;
   align-items: center;
   justify-content: center;
-  margin: 2rem auto;
-  box-shadow: var(--shadow-lg);
+  margin: 2.5rem auto;
+  box-shadow: 0 0 25px rgba(var(--accent-sky-blue-rgb), 0.3), 
+              0 0 40px rgba(var(--accent-pink-rgb), 0.2);
+  animation: rotateGradient 10s ease infinite, pulse 3s infinite alternate;
+  position: relative;
 }
+.robot-placeholder::before {
+  content: '';
+  position: absolute;
+  top: -5px; right: -5px; bottom: -5px; left: -5px;
+  background: inherit;
+  filter: blur(10px);
+  z-index: -1;
+  opacity: 0.7;
+  border-radius: 50%;
+}
+
+@keyframes rotateGradient {
+    0%{background-position:0% 50%}
+    50%{background-position:100% 50%}
+    100%{background-position:0% 50%}
+}
+@keyframes pulse {
+  0% { transform: scale(1); box-shadow: 0 0 25px rgba(var(--accent-sky-blue-rgb), 0.3), 0 0 40px rgba(var(--accent-pink-rgb), 0.2); }
+  50% { transform: scale(1.05); box-shadow: 0 0 35px rgba(var(--accent-sky-blue-rgb), 0.5), 0 0 50px rgba(var(--accent-pink-rgb), 0.3); }
+  100% { transform: scale(1); box-shadow: 0 0 25px rgba(var(--accent-sky-blue-rgb), 0.3), 0 0 40px rgba(var(--accent-pink-rgb), 0.2); }
+}
+
 
 /* Features Section */
 .features-section {
-    padding-top: 2rem; 
+    padding-top: 2.5rem; 
 }
-.features-section .container > p { /* The "eco-friendly" paragraph */
-    font-size: 1.1rem;
+.features-section .officebot-details {
+    font-size: 1.15rem;
     color: var(--primary-color);
     font-weight: 500;
-    margin-bottom: 2.5rem;
+    margin-bottom: 0.8rem;
+    max-width: 780px;
+    margin-left: auto;
+    margin-right: auto;
 }
+.features-section .officebot-details:last-of-type {
+    margin-bottom: 3rem; 
+}
+
 
 .features-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 2rem;
-  margin-top: 2.5rem;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2.5rem; /* Increased gap */
+  margin-top: 3rem;
   text-align: left;
 }
 
 .feature-item {
   background-color: var(--card-background);
-  padding: 2rem 1.75rem;
+  padding: 2.2rem 2rem;
   border-radius: var(--border-radius-md);
   box-shadow: var(--shadow-md);
-  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
   border: 1px solid var(--border-color);
-  /* --feature-icon-color will be set inline */
+  position: relative;
+  overflow: hidden;
 }
 
+.feature-item::before { /* Glow effect */
+  content: "";
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle, rgba(var(--feature-icon-color-rgb, var(--accent-sky-blue-rgb)), 0.15), transparent 40%);
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  transform: translate(-50%, -50%) scale(0); /* Start scaled down and centered on icon */
+  pointer-events: none;
+}
+
+.feature-item:hover::before {
+  opacity: 1;
+  transform: translate(0,0) scale(1); /* Expand from icon position */
+}
+
+
 .feature-item:hover {
-  transform: translateY(-6px);
-  box-shadow: var(--shadow-lg);
+  transform: translateY(-8px) scale(1.02);
+  box-shadow: 0 0 20px rgba(var(--feature-icon-color-rgb, var(--accent-sky-blue-rgb)), 0.3), var(--shadow-lg);
+  border-color: var(--feature-icon-color, var(--primary-color));
 }
 
 .feature-item h4 {
-  color: var(--primary-color); /* Title color */
-  font-size: 1.25rem;
+  color: var(--heading-color); 
+  font-size: 1.35rem;
   font-weight: 600;
   margin-top: 0;
-  margin-bottom: 0.75rem;
+  margin-bottom: 1rem;
   display: flex;
   align-items: center;
+  position: relative; /* For z-index to be above ::before */
+  z-index: 1;
 }
 .feature-item h4 span[role="img"] {
-  margin-right: 0.75rem;
-  font-size: 1.6rem;
-  color: var(--feature-icon-color, var(--primary-color)); /* Use custom property for icon color */
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px; /* Icon pod size */
+  height: 48px;
+  margin-right: 1rem;
+  font-size: 1.8rem; /* Emoji size */
+  background-color: var(--feature-icon-color, var(--primary-color));
+  color: var(--heading-color); /* Emoji color itself (can be tricky) */
+  border-radius: 50%; /* Circular pod */
+  box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+  transition: transform 0.3s ease;
 }
 
+.feature-item:hover h4 span[role="img"] {
+    transform: scale(1.1);
+}
+
+
 .feature-item p {
-  font-size: 0.95rem;
-  color: var(--secondary-color);
+  font-size: 1rem;
+  color: var(--secondary-text-color);
   margin-bottom: 0;
-  line-height: 1.5;
+  line-height: 1.6;
+  position: relative; /* For z-index */
+  z-index: 1;
 }
 
 /* CTA Section */
 .cta-section {
-  background-color: var(--accent-coral); /* New background color */
-  color: var(--light-text-color);
-  padding: 4rem 0;
+  background: var(--futuristic-gradient);
+  background-size: 200% auto; /* For gradient animation */
+  animation: backgroundShine 15s linear infinite reverse;
+  color: var(--heading-color);
+  padding: 5rem 0;
+  position: relative;
+  overflow: hidden;
 }
+.cta-section::before { /* Subtle overlay lines */
+    content: "";
+    position: absolute;
+    top:0; left:0; right:0; bottom:0;
+    background-image: linear-gradient(45deg, rgba(255,255,255,0.03) 25%, transparent 25%, transparent 50%, rgba(255,255,255,0.03) 50%, rgba(255,255,255,0.03) 75%, transparent 75%, transparent);
+    background-size: 30px 30px;
+    opacity: 0.5;
+}
+
+
 .cta-section h3 {
-    color: var(--light-text-color);
-    font-size: 2rem;
+    color: var(--heading-color);
+    font-size: 2.2rem;
+    position: relative; z-index: 1;
 }
 .cta-section p {
-    color: rgba(255, 255, 255, 0.95); /* Ensure good contrast */
-    font-size: 1.1rem;
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 1.15rem;
+    position: relative; z-index: 1;
 }
 .cta-section p strong {
     font-weight: 700;
 }
 
 .cta-button {
-  background-color: var(--light-text-color); /* Button background remains light */
-  color: var(--accent-coral); /* Button text matches new CTA bg for thematic link, or use primary blue */
-  /* color: var(--primary-color); /* Alternative: keep button text primary blue */
+  background-color: rgba(255, 255, 255, 0.95); 
+  color: var(--accent-violet); /* Text color matching one of the gradient colors */
   border: 2px solid transparent;
-  padding: 0.9rem 2.2rem;
-  font-size: 1.1rem;
-  font-weight: 600; 
+  padding: 1rem 2.5rem;
+  font-size: 1.15rem;
+  font-weight: 700; 
+  letter-spacing: 0.5px;
   border-radius: var(--border-radius-sm);
   cursor: pointer;
-  transition: background-color 0.2s ease, color 0.2s ease, transform 0.15s ease, box-shadow 0.15s ease;
+  transition: all 0.25s ease;
   text-decoration: none;
   display: inline-block;
-  margin-top: 1.5rem;
-  box-shadow: var(--shadow-sm);
+  margin-top: 1.8rem;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+  position: relative; z-index: 1;
 }
 
 .cta-button:hover, .cta-button:focus {
-  background-color: #fff7f5; /* Slightly off-white, related to coral */
-  color: #E55B4F; /* Darker coral for hover text */
-  /* color: var(--primary-hover-color); /* Alternative for primary blue text */
-  transform: translateY(-3px);
-  box-shadow: var(--shadow-md);
+  background-color: #FFFFFF;
+  color: var(--accent-pink);
+  transform: translateY(-4px) scale(1.03);
+  box-shadow: 0 6px 20px rgba(var(--accent-pink-rgb),0.4);
   outline: none;
 }
 .cta-button:active {
-    transform: translateY(-1px);
-    box-shadow: var(--shadow-sm);
+    transform: translateY(-2px) scale(1.01);
+    box-shadow: 0 3px 10px rgba(var(--accent-pink-rgb),0.3);
 }
 
 
 /* Footer */
 footer {
-  background-color: #2E3338; 
-  color: #a0aec0; 
+  background-color: #0A0C14; /* Even darker for footer */
+  color: var(--secondary-text-color); 
   text-align: center;
-  padding: 2rem 0;
-  font-size: 0.9rem;
+  padding: 2.5rem 0;
+  font-size: 0.95rem;
   margin-top: auto;
+  border-top: 1px solid var(--border-color);
 }
 footer p {
-    margin: 0.4rem 0;
-    font-size: 0.9rem;
+    margin: 0.5rem 0;
+    font-size: 0.95rem;
 }
 footer p:first-child {
-    color: #cbd5e0; 
+    color: var(--text-color); 
 }
 
 
@@ -302,63 +416,67 @@ footer p:first-child {
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(30, 30, 40, 0.7); 
+  background-color: rgba(10, 12, 20, 0.85); /* Darker, more opaque overlay */
+  backdrop-filter: blur(5px);
   display: flex;
   align-items: center;
   justify-content: center;
   z-index: 1000;
   padding: 20px;
-  box-sizing: border-box;
   opacity: 0;
   visibility: hidden;
-  transition: opacity 0.3s ease, visibility 0s linear 0.3s;
+  transition: opacity 0.35s ease, visibility 0s linear 0.35s;
 }
 .modal-overlay:target, 
 .modal-overlay[style*="display: flex"] { 
   opacity: 1;
   visibility: visible;
-  transition: opacity 0.3s ease;
+  transition: opacity 0.35s ease;
 }
 
 
 .modal-content {
   background-color: var(--card-background);
-  padding: 2rem 2.5rem;
+  color: var(--text-color);
+  padding: 2.5rem 3rem;
   border-radius: var(--border-radius-md);
-  box-shadow: var(--shadow-lg);
+  box-shadow: var(--shadow-lg), 0 0 30px rgba(var(--primary-color-rgb, var(--accent-sky-blue-rgb)), 0.2);
   width: 100%;
-  max-width: 520px;
+  max-width: 550px;
   max-height: 90vh;
   overflow-y: auto;
   text-align: left;
-  transform: scale(0.95);
-  transition: transform 0.3s ease;
+  transform: translateY(20px) scale(0.98);
+  transition: transform 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.3s ease;
+  border: 1px solid var(--border-color);
 }
 
 .modal-overlay[style*="display: flex"] .modal-content {
-    transform: scale(1);
+    transform: translateY(0) scale(1);
+    opacity: 1;
 }
 
 
 .modal-content h2 {
   margin-top: 0;
-  margin-bottom: 1.75rem;
-  font-size: 1.75rem;
+  margin-bottom: 2rem;
+  font-size: 1.8rem;
   font-weight: 600;
-  color: var(--text-color);
+  color: var(--heading-color);
   text-align: center;
+  letter-spacing: 0.5px;
 }
 
 .form-group {
-  margin-bottom: 1.25rem;
+  margin-bottom: 1.5rem;
 }
 
 .form-group label {
   display: block;
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.6rem;
   font-weight: 500; 
-  font-size: 0.9rem;
-  color: var(--text-color);
+  font-size: 0.95rem;
+  color: var(--secondary-text-color);
 }
 
 .form-group input[type="text"],
@@ -366,45 +484,48 @@ footer p:first-child {
 .form-group input[type="number"],
 .form-group textarea {
   width: 100%;
-  padding: 0.8rem 1rem;
+  padding: 0.9rem 1.1rem;
   border: 1px solid var(--border-color);
   border-radius: var(--border-radius-sm);
   font-size: 1rem;
   font-family: var(--font-family);
   box-sizing: border-box;
-  transition: border-color 0.2s ease, box-shadow 0.2s ease;
-  background-color: #FDFDFF; 
+  transition: border-color 0.25s ease, box-shadow 0.25s ease, background-color 0.25s ease;
+  background-color: #121422; /* Darker input background */
+  color: var(--text-color);
 }
 
 .form-group input:focus,
 .form-group textarea:focus {
   outline: none;
   border-color: var(--primary-color);
-  box-shadow: 0 0 0 3px rgba(var(--primary-color), 0.15);
+  background-color: var(--card-background);
+  box-shadow: 0 0 0 3px rgba(var(--accent-sky-blue-rgb), 0.25);
 }
 
 .form-group input::placeholder,
 .form-group textarea::placeholder {
-    color: #999;
+    color: #606A85; /* Muted placeholder text */
     font-size: 0.95rem;
 }
 
 .form-group input:invalid:not(:placeholder-shown) { 
   border-color: var(--error-color);
-  box-shadow: 0 0 0 3px rgba(var(--error-color), 0.1);
+  box-shadow: 0 0 0 3px rgba(var(--error-color), 0.15);
 }
 
 
 .order-summary {
-  margin-top: 1.75rem;
-  padding-top: 1.25rem;
+  margin-top: 2rem;
+  padding-top: 1.5rem;
   border-top: 1px solid var(--border-color);
 }
 .order-summary p {
-  margin: 0.6rem 0;
+  margin: 0.7rem 0;
   font-size: 1rem;
   display: flex;
   justify-content: space-between;
+  color: var(--text-color);
 }
 .order-summary strong {
   color: var(--primary-color);
@@ -412,57 +533,60 @@ footer p:first-child {
 }
 
 .modal-actions {
-  margin-top: 2.25rem;
+  margin-top: 2.5rem;
   display: flex;
   justify-content: flex-end;
-  gap: 0.75rem;
+  gap: 1rem;
 }
 
 .modal-button {
-  padding: 0.75rem 1.5rem;
-  font-size: 0.95rem;
+  padding: 0.8rem 1.8rem;
+  font-size: 1rem;
   border-radius: var(--border-radius-sm);
   border: none;
   cursor: pointer;
-  transition: background-color 0.2s ease, transform 0.1s ease, box-shadow 0.15s ease;
+  transition: all 0.2s ease;
   font-weight: 600;
   line-height: 1.5;
+  letter-spacing: 0.3px;
 }
 
 .modal-button.primary-button {
   background-color: var(--primary-color);
-  color: var(--light-text-color);
-  box-shadow: var(--shadow-sm);
+  color: var(--heading-color);
+  box-shadow: 0 2px 8px rgba(var(--accent-sky-blue-rgb), 0.2);
 }
 .modal-button.primary-button:hover {
   background-color: var(--primary-hover-color);
-  box-shadow: var(--shadow-md);
+  box-shadow: 0 4px 12px rgba(var(--accent-sky-blue-rgb), 0.3);
+  transform: translateY(-2px);
 }
 
 .modal-button.cancel-button, .modal-button.back-button {
-  background-color: var(--card-background);
-  color: var(--secondary-color);
+  background-color: transparent;
+  color: var(--secondary-text-color);
   border: 1px solid var(--border-color);
 }
 .modal-button.cancel-button:hover, .modal-button.back-button:hover {
-  background-color: #f1f3f5; 
-  border-color: #ced4da;
-  color: var(--secondary-hover-color);
+  background-color: rgba(var(--secondary-text-color-rgb, 160, 174, 192), 0.1); /* Assuming secondary-text-color-rgb is defined or use a fixed one */
+  border-color: var(--secondary-text-color);
+  color: var(--text-color);
 }
 
 .modal-button:active {
-    transform: translateY(1px);
+    transform: translateY(0px);
     box-shadow: none;
 }
 
 .confirmation-message p {
-    margin-bottom: 0.8rem;
-    font-size: 1rem;
+    margin-bottom: 0.9rem;
+    font-size: 1.05rem;
+    color: var(--text-color);
 }
 .confirmation-message .small-print {
-    font-size: 0.85rem;
-    color: var(--secondary-color);
-    margin-top: 1.5rem;
+    font-size: 0.9rem;
+    color: var(--secondary-text-color);
+    margin-top: 1.8rem;
 }
 
 
@@ -479,64 +603,49 @@ footer p:first-child {
   border-width: 0;
 }
 
-/* Responsive Design */
+/* Responsive Design Adjustments for Futuristic Theme */
 @media (max-width: 992px) {
-    .hero-section h2 {
-        font-size: 2.4rem;
-    }
+    header h1 { font-size: 2.4rem; }
+    .hero-section h2 { font-size: 2.6rem; }
     .features-grid {
-        grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-        gap: 1.5rem;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 2rem;
     }
 }
 
 
 @media (max-width: 768px) {
-  header h1 {
-    font-size: 1.9rem;
-  }
-  header .tagline {
-    font-size: 0.9rem;
-  }
+  header h1 { font-size: 2.1rem; }
+  header .tagline { font-size: 1rem; }
 
-  section {
-    padding: 2.5rem 0;
-  }
-  section h2 {
-    font-size: 2rem;
-  }
-  section h3 {
-    font-size: 1.7rem;
-  }
+  section { padding: 3rem 0; }
+  section h2 { font-size: 2.2rem; }
+  section h3 { font-size: 1.8rem; }
 
-  .hero-section h2 {
-    font-size: 2.1rem;
-  }
-  .hero-section p {
-    font-size: 1.1rem;
-  }
+  .hero-section h2 { font-size: 2.3rem; }
+  .hero-section p { font-size: 1.1rem; }
   .robot-placeholder {
     font-size: 4.5rem;
-    width: 120px;
-    height: 120px;
+    width: 130px;
+    height: 130px;
   }
 
   .features-grid {
-    grid-template-columns: 1fr; /* Stack features on smaller screens */
+    grid-template-columns: 1fr; 
   }
   .feature-item {
-      padding: 1.5rem;
+      padding: 1.8rem 1.5rem;
   }
 
   .modal-content {
-    padding: 2rem 1.5rem; /* Adjust padding for smaller modals */
+    padding: 2rem 1.8rem; 
   }
   .modal-content h2 {
-    font-size: 1.5rem;
+    font-size: 1.6rem;
   }
   .modal-actions {
-    flex-direction: column-reverse; /* Stack buttons on small screens */
-    gap: 0.5rem;
+    flex-direction: column-reverse; 
+    gap: 0.75rem;
   }
   .modal-button {
     width: 100%;
@@ -545,43 +654,34 @@ footer p:first-child {
 
 @media (max-width: 480px) {
     .container {
-        width: 100%;
-        padding: 0 15px; /* Slightly less padding on very small screens */
+        padding: 0 10px; 
     }
-    header h1 {
-        font-size: 1.7rem;
-    }
-    header .tagline {
-        font-size: 0.85rem;
-    }
+    header h1 { font-size: 1.8rem; }
+    header .tagline { font-size: 0.9rem; }
 
-    .hero-section h2 {
-        font-size: 1.8rem;
-    }
-    .hero-section p {
-        font-size: 1rem;
-    }
+    .hero-section h2 { font-size: 2rem; }
+    .hero-section p { font-size: 1rem; }
     .robot-placeholder {
         font-size: 4rem;
-        width: 100px;
-        height: 100px;
+        width: 110px;
+        height: 110px;
     }
 
     .cta-button {
-        padding: 0.8rem 1.8rem;
-        font-size: 1rem;
+        padding: 0.9rem 2rem;
+        font-size: 1.05rem;
     }
 
     .modal-content {
-        margin: 10px; /* Ensure modal isn't flush with screen edges */
+        margin: 10px; 
         max-height: calc(100vh - 20px);
-        padding: 1.5rem 1rem;
+        padding: 1.8rem 1.2rem;
     }
      .modal-content h2 {
-        font-size: 1.3rem;
+        font-size: 1.4rem;
     }
     .form-group input, .form-group textarea {
-        padding: 0.7rem 0.8rem;
+        padding: 0.8rem 1rem;
         font-size: 0.95rem;
     }
 }
