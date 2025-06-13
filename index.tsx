@@ -1,4 +1,3 @@
-
 /**
  * @license
  * SPDX-License-Identifier: Apache-2.0
@@ -29,7 +28,64 @@ function initializeApp(): void {
   const header = document.createElement('header');
   header.innerHTML = `
     <div class="container">
-      <h1>OfficeBot</h1>
+      <h1>
+        <svg class="site-logo" viewBox="0 0 200 165" xmlns="http://www.w3.org/2000/svg" aria-label="Detechtive Kids Logo" preserveAspectRatio="xMidYMid meet">
+          <style>
+            .logo-bright-blue-stroke { stroke: #00B4F5; }
+            .logo-bright-blue-fill { fill: #00B4F5; }
+            .logo-text {
+              font-family: Impact, 'Arial Black', Gadget, sans-serif;
+              font-weight: 900;
+              fill: #FFFFFF; /* Changed to white for legibility */
+              text-anchor: middle;
+              dominant-baseline: central;
+            }
+            .logo-white-fill { fill: #FFFFFF; }
+            .logo-black-fill { fill: #000000; }
+            .handle-gradient-fill { fill: url(#handleGradient); }
+            .head-gradient-fill { fill: url(#headGradient); }
+          </style>
+          <defs>
+            <linearGradient id="handleGradient" x1="0%" y1="0%" x2="80%" y2="100%">
+              <stop offset="0%" style="stop-color:#0084C3;" /> <!-- Darker blue -->
+              <stop offset="100%" style="stop-color:#00B4F5;" /> <!-- Brighter blue -->
+            </linearGradient>
+            <radialGradient id="headGradient" cx="70%" cy="30%" r="65%"> <!-- Light source from top-right-ish for a subtle 3D effect -->
+              <stop offset="0%" style="stop-color:#00CFFF;" /> <!-- Highlight color -->
+              <stop offset="60%" style="stop-color:#00B4F5;" /> <!-- Main bright blue -->
+              <stop offset="100%" style="stop-color:#009AD8;" /> <!-- Slightly darker edge for depth -->
+            </radialGradient>
+          </defs>
+          
+          <!-- Robot Head Group (Drawn first to be "behind", position adjusted) -->
+          <g transform="translate(125, 56)"> 
+            <!-- Main head with gradient -->
+            <circle cx="0" cy="0" r="30" class="head-gradient-fill"/>
+            <!-- Eye -->
+            <circle cx="7" cy="-5" r="10" class="logo-white-fill"/> <!-- White of the eye -->
+            <circle cx="9" cy="-5" r="5" class="logo-black-fill"/> <!-- Pupil -->
+            <circle cx="6.5" cy="-7" r="2.5" class="logo-white-fill" opacity="0.9"/> <!-- Glint -->
+            <!-- Antenna -->
+            <line x1="0" y1="-30" x2="0" y2="-38" class="logo-bright-blue-stroke" stroke-width="5" stroke-linecap="round"/>
+            <circle cx="0" cy="-42" r="4" class="logo-bright-blue-fill"/>
+          </g>
+
+          <!-- Handle: -->
+          <rect x="-20" y="-12" width="40" height="24" rx="12" ry="12" 
+                transform="translate(122, 122) rotate(45)" 
+                class="handle-gradient-fill" />
+          
+          <!-- Magnifying glass LENS GLASS (subtle fill) -->
+          <circle cx="80" cy="80" r="60" style="fill:rgba(200, 230, 255, 0.1);" />
+
+          <!-- Magnifying glass FRAME -->
+          <circle cx="80" cy="80" r="60" class="logo-bright-blue-stroke" stroke-width="20" fill="none" />
+          
+          <!-- Text inside lens (Drawn last to be on top of everything) -->
+          <text x="80" y="66" class="logo-text" font-size="24">DETECHTIVE</text>
+          <text x="80" y="94" class="logo-text" font-size="24">KIDS</text>
+        </svg>
+      </h1>
       <p class="tagline">Your Future Workplace Assistant</p>
     </div>
   `;
@@ -46,8 +102,8 @@ function initializeApp(): void {
   heroSection.innerHTML = `
     <div class="container">
       <h2>Meet OfficeBot: Revolutionize Your Workplace!</h2>
-      <p>The intelligent, autonomous robot designed to streamline office tasks and boost productivity.</p>
-      <p class="hero-sub-description">Are you an office worker feeling overwhelmed, constantly racing against the clock? OfficeBot is here to help! We designed this product to reduce your stress by taking on repetitive tasks, so you can relax, focus, and achieve better results.</p>
+      <p>Meet OfficeBot: your intelligent, autonomous, and interactive <strong>physical robot</strong> designed to streamline office tasks. It's built to reduce your stress and work hours, inject fun into your workday, boost productivity, and combat pollution with its clean energy operation. <strong>OfficeBot is a real, tangible assistant, not a Large Language Model (LLM) or a purely software-based solution.</strong></p>
+      <p class="hero-sub-description">Are you an office worker feeling overwhelmed, constantly racing against the clock? Excessive office work can take a toll both physically and mentally. OfficeBot is here to help! We designed this product to reduce your stress and the time you spend on repetitive tasks, adding an element of fun, so you can relax, focus, protect your well-being, and achieve better results.</p>
       <div class="robot-placeholder" aria-label="Illustration of a friendly office robot">
         🤖
       </div>
@@ -73,8 +129,11 @@ function initializeApp(): void {
   let featuresHTML = `
     <div class="container">
       <h3>Why Choose OfficeBot?</h3>
-      <p class="officebot-details">OfficeBot is eco-friendly, powered by advanced solar panel technology!</p>
-      <p class="officebot-details">OfficeBot is ingeniously crafted from everyday materials like foam board, tinfoil, perler beads, wire, and construction paper!</p>
+      <p class="officebot-details">OfficeBot is eco-friendly, powered by advanced solar panel technology! By utilizing clean solar energy, it actively contributes to reducing office carbon footprints and combating pollution.</p>
+      <p class="officebot-details">To keep OfficeBot powered, a solar panel mounted on a tripod connects to a dedicated charger, which then plugs directly into the robot.</p>
+      <p class="officebot-details">More than just efficient, OfficeBot is designed to be interactive and fun, helping to alleviate workplace stress and inspiring you to achieve your best results!</p>
+      <p class="officebot-details">By automating routine tasks, OfficeBot helps shorten your work time, freeing you up and reducing the physical and mental strain often associated with long office hours.</p>
+      <p class="officebot-details">Emphasizing its nature as a <strong>real, physical robot</strong> (not an LLM), OfficeBot is ingeniously crafted from everyday materials like foam board, tinfoil, perler beads, wire, and construction paper!</p>
       <div class="features-grid">
   `;
 
@@ -112,8 +171,14 @@ function initializeApp(): void {
   const footer = document.createElement('footer');
   footer.innerHTML = `
     <div class="container">
-      <p>&copy; ${new Date().getFullYear()} OfficeBot by DetechtiveKids. All rights reserved.</p>
-      <p>Please note: This is a demo website. OfficeBot is a conceptual product. Orders are for demonstration purposes only.</p>
+      <div class="creators-section">
+        <p class="creators-label">OfficeBot Creators:</p>
+        <p class="neon-text-name">Arjun Kumar Dhawan</p>
+        <p class="neon-text-name">Atharva Radhakrishnan</p>
+        <p class="neon-text-name">Satvik Iyer</p>
+      </div>
+      <p class="copyright-text">&copy; ${new Date().getFullYear()} Detechtive Kids. All rights reserved.</p>
+      <p class="disclaimer-text">Please note: This is a demo website. OfficeBot is a conceptual product. Orders are for demonstration purposes only.</p>
     </div>
   `;
   appRoot.appendChild(footer);
